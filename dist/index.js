@@ -131,6 +131,7 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let version = core.getInput('tekton-version');
+            core.debug(`VERSION = '${version}'`);
             if (version) {
                 yield installer.getTekton(version);
             }
