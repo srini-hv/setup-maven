@@ -3,9 +3,9 @@ import * as installer from './installer';
 
 async function run() {
   try {
-    let version = core.getInput('maven-version');
+    let version = core.getInput('tekton-version');
     if (version) {
-      await installer.getMaven(version);
+      await installer.getTekton(version);
     }
   } catch (error) {
     core.setFailed(error.message);

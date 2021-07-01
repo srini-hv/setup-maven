@@ -19,29 +19,31 @@ if (!tempDirectory) {
   tempDirectory = path.join(baseLocation, 'actions', 'temp');
 }
 
-export async function getMaven(version: string) {
+export async function getTekton(version: string) {
   let toolPath: string;
-  toolPath = tc.find('maven', version);
+  toolPath = tc.find('tkn', version);
 
   if (!toolPath) {
-    toolPath = await downloadMaven(version);
+    toolPath = await downloadTekton(version);
   }
 
   toolPath = path.join(toolPath, 'bin');
   core.addPath(toolPath);
 }
 
-async function downloadMaven(version: string): Promise<string> {
+async function downloadTekton(version: string): Promise<string> {
   const toolDirectoryName = `apache-maven-${version}`
+  const os = process.platform
   const downloadUrl =
-    `https://apache.org/dyn/closer.cgi?filename=maven/maven-3/${version}/binaries/${toolDirectoryName}-bin.tar.gz&action=download`
+    `https://github.com/tektoncd/cli/releases/download/${version}/tkn_${version}_${os}_x86_64.tar.gz&action=download`
+
   console.log(`downloading ${downloadUrl}`)
 
   try {
     const downloadPath = await tc.downloadTool(downloadUrl)
     const extractedPath = await tc.extractTar(downloadPath)
     let toolRoot = path.join(extractedPath, toolDirectoryName)
-    return await tc.cacheDir(toolRoot, 'maven', version)
+    return await tc.cacheDir(toolRoot, 'tkn', version)
   } catch (err) {
     throw err
   }
