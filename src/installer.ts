@@ -28,16 +28,18 @@ export async function getTekton(version: string) {
   }
 
   toolPath = path.join(toolPath, 'bin');
+  core.debug(`toolPath = ${toolPath}`)
   core.addPath(toolPath);
 }
 
 async function downloadTekton(version: string): Promise<string> {
-  const toolDirectoryName = `apache-maven-${version}`
+  const toolDirectoryName = `tekton-${version}`
   const os = process.platform
+  core.debug(`OS = '${os}'`)
   const downloadUrl =
     `https://github.com/tektoncd/cli/releases/download/${version}/tkn_${version}_${os}_x86_64.tar.gz&action=download`
 
-  console.log(`downloading ${downloadUrl}`)
+    core.debug(`downloading ${downloadUrl}`)
 
   try {
     const downloadPath = await tc.downloadTool(downloadUrl)
